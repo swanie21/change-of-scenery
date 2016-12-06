@@ -10,7 +10,6 @@
   body { height: 100%; }
 
   body {
-    align-items: center;
     background-position: center;
     display: flex;
     font-family: Lato, Helvetica, sans-serif;
