@@ -2,13 +2,12 @@
 .search-container {
   align-items: center;
   background: black;
-  opacity: 0.85;
+  opacity: 0.9;
   display: flex;
   flex-direction: column;
   height: 250px;
   justify-content: center;
-  overflow-y: hidden;
-  width: 800px;
+  width: 100vw;
 }
 
 .search-input {
@@ -47,20 +46,27 @@
 <template>
   <section class="search-container">
     <input class="search-input" v-model="search" type="text" placeholder="Find a background">
-    <button class="submit-search-button" @click='getPictureUrl'>Submit</button>
+    <button class="submit-search-button" @click='testFiles'>Submit</button>
+    <p class="search-input">{{path}}</p>
   </section>
 </template>
 
 <script>
+  const { remote } = require('electron')
+  const path = require('path')
+  const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
   const xhr = new XMLHttpRequest()
+
   export default {
     data () {
       return {
         search: '',
-        pictureUrl: ''
+        pictureUrl: '',
+        path: ''
       }
     },
     methods: {
+      testFiles () { this.path = mainProcess.getPath() },
       getPictureUrl () {
         xhr.open('GET', `https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`, true)
         xhr.onreadystatechange = () => {
