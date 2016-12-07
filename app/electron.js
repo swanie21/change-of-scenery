@@ -20,7 +20,9 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     title: 'Change of Scenery',
     height: 600,
-    width: 800
+    width: 800,
+    minWidth: 500,
+    minHeight: 600
   })
 
   mainWindow.loadURL(config.url)
