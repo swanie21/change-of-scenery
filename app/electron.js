@@ -17,10 +17,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function createWindow () {
-  /**
-   * Initial window options
-   */
   mainWindow = new BrowserWindow({
+    title: 'Change of Scenery',
     height: 600,
     width: 800
   })

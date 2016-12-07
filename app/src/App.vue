@@ -6,16 +6,16 @@
     padding: 0;
   }
 
-  html,
-  body { height: 100%; }
+  html, body {
+    height: 100%;
+  }
 
   body {
     align-items: center;
-    background-position: center;
+    background-image: url('../../img/collage.png');
     display: flex;
     font-family: Lato, Helvetica, sans-serif;
     justify-content: center;
-    text-align: center;
   }
 </style>
 
