@@ -1,24 +1,28 @@
 <style lang="scss" scoped>
 .search-container {
   align-items: center;
+  background: black;
+  opacity: 0.85;
   display: flex;
   flex-direction: column;
+  height: 250px;
   justify-content: center;
   overflow-y: hidden;
+  width: 800px;
 }
 
 .search-input {
   background: #fff;
-  border: 2px solid darken(#FFF1D0, 10%);
   border-radius: 50px;
-  color: #063545;
+  color: #010101;
   font-size: 26px;
   outline: none;
   padding: 15px;
   text-align: center;
   width: 400px;
   &:focus {
-    background: darken(#fff, 5%);
+    background: #edee9d;
+    transition: 0.5s;
   }
 }
 
