@@ -57,14 +57,8 @@
   const path = require('path')
   const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
   const xhr = new XMLHttpRequest()
-  // const setBackground = () => {
-  //   let script = 'tell application "Finder" to open file "background.jpg"'
-  //   applescript.execString(script, (error, response) => {
-  //     if (error) {
-  //       console.log(error)
-  //     }
-  //   })
-  // }
+  const fs = require('fs')
+  let downloadPath = path.join(process.cwd(), '/app', '/imageDownloads')
 
   export default {
     data () {
@@ -81,14 +75,14 @@
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             let response = JSON.parse(xhr.response)
-            console.log(response.urls)
             mainProcess.savePicture(response.urls.regular, Date.now())
           }
         }
         xhr.send()
       },
       setBackground () {
-        let script = 'tell application "Finder" to set desktop picture to file "background.jpg"'
+        let downloads = fs.readdirSync(downloadPath)
+        let script = `tell application "Finder" to set desktop picture to POSIX file  "${downloadPath}/${downloads[downloads.length - 1]}"`
         applescript.execString(script, (error, response) => {
           if (error) {
             console.log(error)

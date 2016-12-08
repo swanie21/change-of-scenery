@@ -33,7 +33,14 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const downloadFile = exports.savePicture = (url) => {
-    const targetPath = app.getPath('desktop') + '/background.jpg'
+    let downloadNumber;
+    let downloads = fs.readdirSync(path.join(__dirname, '/imageDownloads'))
+    if (downloads.length>0) {
+      downloadNumber = downloads.length
+    } else {
+      downloadNumber = 0
+    }
+    const targetPath = __dirname + `/imageDownloads/background${downloadNumber}.jpg`
     const imageRequest = request({
         method: 'GET',
         uri: url
