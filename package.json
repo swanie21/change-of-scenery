@@ -76,6 +76,7 @@
     "webpack-merge": "^0.14.1"
   },
   "dependencies": {
-    "applescript": "^1.0.0"
+    "applescript": "^1.0.0",
+    "request": "^2.79.0"
   }
 }

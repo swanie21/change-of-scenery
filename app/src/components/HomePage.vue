@@ -46,8 +46,7 @@
 <template>
   <section class="search-container">
     <input class="search-input" v-model="search" type="text" placeholder="Find a background">
-    <button class="submit-search-button" @click='testFiles'>Submit</button>
-    <p class="search-input">{{path}}</p>
+    <button class="submit-search-button" @click='testSave'>Submit</button>
   </section>
 </template>
 
@@ -66,16 +65,18 @@
       }
     },
     methods: {
-      testFiles () { this.path = mainProcess.getPath() },
-      getPictureUrl () {
+      getPicture () {
         xhr.open('GET', `https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`, true)
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             let response = JSON.parse(xhr.response)
-            response.urls.regular ? this.pictureUrl = response.urls.regular : null
+            console.log(response.urls.regular)
           }
         }
         xhr.send()
+      },
+      testSave () {
+        mainProcess.testSave()
       }
     }
   }
