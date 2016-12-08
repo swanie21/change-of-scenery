@@ -46,15 +46,25 @@
 <template>
   <section class="search-container">
     <input class="search-input" v-model="search" type="text" placeholder="Find a background">
-    <button class="submit-search-button" @click='testSave'>Submit</button>
+    <button class="submit-search-button" @click='getPicture'>Get Picture</button>
+    <button class="submit-search-button" @click='setBackground'>Set Picture</button>
   </section>
 </template>
 
 <script>
+  const applescript = require('applescript')
   const { remote } = require('electron')
   const path = require('path')
   const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
   const xhr = new XMLHttpRequest()
+  // const setBackground = () => {
+  //   let script = 'tell application "Finder" to open file "background.jpg"'
+  //   applescript.execString(script, (error, response) => {
+  //     if (error) {
+  //       console.log(error)
+  //     }
+  //   })
+  // }
 
   export default {
     data () {
@@ -64,19 +74,26 @@
         path: ''
       }
     },
+
     methods: {
       getPicture () {
         xhr.open('GET', `https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`, true)
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             let response = JSON.parse(xhr.response)
-            console.log(response.urls.regular)
+            console.log(response.urls)
+            mainProcess.savePicture(response.urls.regular, Date.now())
           }
         }
         xhr.send()
       },
-      testSave () {
-        mainProcess.testSave()
+      setBackground () {
+        let script = 'tell application "Finder" to set desktop picture to file "background.jpg"'
+        applescript.execString(script, (error, response) => {
+          if (error) {
+            console.log(error)
+          }
+        })
       }
     }
   }

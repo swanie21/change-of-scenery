@@ -32,12 +32,11 @@ if (process.env.NODE_ENV === 'development') {
   config.url = `file://${__dirname}/dist/index.html`
 }
 
-const downloadFile = exports.testSave = () => {
-    console.log(__dirname)
-    const targetPath = app.getPath(__dirname + '/test')
+const downloadFile = exports.savePicture = (url) => {
+    const targetPath = app.getPath('desktop') + '/background.jpg'
     const imageRequest = request({
         method: 'GET',
-        uri: 'https://source.unsplash.com/category/nature'
+        uri: url
     });
     const out = fs.createWriteStream(targetPath);
     imageRequest.pipe(out);
