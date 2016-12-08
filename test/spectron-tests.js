@@ -7,6 +7,9 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 let appPath = path.join(__dirname, '..', 'app');
+const FileBin = require('file-bin');
+
+let fileBin = new FileBin('/base-directory', ['.jpg']);
 
 global.before(() => {
   chai.should();
