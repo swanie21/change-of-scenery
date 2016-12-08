@@ -2,7 +2,8 @@
 const electron = require('electron')
 const path = require('path')
 const fs = require('fs')
-const { app, BrowserWindow } = electron
+const { app, BrowserWindow, session } = electron
+const request = require('request')
 
 let mainWindow
 let config = {}
@@ -31,6 +32,12 @@ if (process.env.NODE_ENV === 'development') {
   config.url = `file://${__dirname}/dist/index.html`
 }
 
-const getPath = exports.getPath = () => {
-  return app.getAppPath()
+const downloadFile = exports.savePicture = (url) => {
+    const targetPath = app.getPath('desktop') + '/background.jpg'
+    const imageRequest = request({
+        method: 'GET',
+        uri: url
+    });
+    const out = fs.createWriteStream(targetPath);
+    imageRequest.pipe(out);
 }
