@@ -14,8 +14,7 @@
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter app test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix app test",
     "pack": "cross-env NODE_ENV=production webpack -p --progress --colors",
-    "test": "npm run unit && npm run e2e",
-    "unit": "karma start test/unit/karma.conf.js",
+    "test": "mocha test/spectron-tests.js",
     "postinstall": "npm run lint:fix && cd app && npm install"
   },
   "author": "Greg Holguin <simulatedgreg@gmail.com>",
@@ -30,6 +29,7 @@
     "babel-register": "^6.14.0",
     "babel-runtime": "^6.6.1",
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "cross-env": "^1.0.7",
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
