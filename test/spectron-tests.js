@@ -1,15 +1,13 @@
 const Application = require('spectron').Application;
-const { BrowserWindow } = require('electron');
-const expect = require('chai').expect;
 const assert = require('chai').assert;
 const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
-let appPath = path.join(__dirname, '..', 'app');
+const electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
+const appPath = path.join(__dirname, '..', 'app');
 const FileBin = require('file-bin');
-
-let fileBin = new FileBin('/base-directory', ['.jpg']);
+const fileBinPath = path.join(__dirname, 'test-files');
+const fileBin = new FileBin(fileBinPath, ['.jpg']);
 
 global.before(() => {
   chai.should();
@@ -48,5 +46,24 @@ describe('App starts and has correct title', () => {
     return app.client.waitUntilWindowLoaded().then(() => {
       app.client.getTitle().should.eventually.equal('Change of Scenery');
     });
+  });
+});
+
+describe('App saves a .jpg file', () => {
+  it('writes a .jpg file with FileBin', function () {
+    return fileBin.write('background1.jpg', 'base64ImageEncoder.jpg').then(file => {
+      console.log(file);
+    });
+  });
+
+  it('finds a .jpg file with FileBin', () => {
+    return fileBin.find('background.jpg').then(file => {
+      console.log(file);
+    });
+  });
+
+  it('get directory for .jpg file', () => {
+    const fileBin = new FileBin('/test/test-files');
+    console.log(fileBin.getBaseDirectory());
   });
 });
