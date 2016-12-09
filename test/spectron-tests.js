@@ -56,7 +56,7 @@ describe('App saves a .jpg file', () => {
     });
   });
 
-  it('finds a .jpg file with FileBin', () => {
+  xit('finds a .jpg file with FileBin', () => {
     return fileBin.find('background.jpg').then(file => {
       console.log(file);
     });

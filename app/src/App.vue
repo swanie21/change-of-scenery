@@ -12,7 +12,7 @@
 
   body {
     align-items: center;
-    background-image: url('../../img/photo-collage.png');
+    background-image: url('../../img/photo-collage.jpg');
     display: flex;
     font-family: Lato, Helvetica, sans-serif;
     justify-content: center;
