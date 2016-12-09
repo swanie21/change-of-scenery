@@ -14,10 +14,13 @@ app.on('ready', () => {
     height: 600,
     width: 800,
     minWidth: 500,
-    minHeight: 600
+    minHeight: 600,
+    show: false
   })
 
   mainWindow.loadURL(config.url)
+
+  mainWindow.once('ready-to-show', () => mainWindow.show())
 
   mainWindow.on('closed', () => {
     mainWindow = null
