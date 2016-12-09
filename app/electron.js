@@ -32,8 +32,11 @@ if (process.env.NODE_ENV === 'development') {
   config.url = `file://${__dirname}/dist/index.html`
 }
 
-const downloadFile = exports.savePicture = (url) => {
-    const targetPath = app.getPath('desktop') + '/background.jpg'
+const downloadFile = exports.savePicture = (url, id) => {
+    const downloadPath = path.join(__dirname, '/imageDownloads')
+    const oldBackground = fs.readdirSync(downloadPath)[0]
+    oldBackground ? fs.unlinkSync(path.join(downloadPath, oldBackground)) : null
+    const targetPath = __dirname + `/imageDownloads/background${id}.jpg`
     const imageRequest = request({
         method: 'GET',
         uri: url
