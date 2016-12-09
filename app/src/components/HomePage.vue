@@ -47,42 +47,43 @@
   <section class="search-container">
     <input class="search-input" v-model="search" type="text" placeholder="Find a background">
     <button class="submit-search-button" @click='getPicture'>Get Picture</button>
-    <button class="submit-search-button" @click='setBackground'>Set Picture</button>
   </section>
 </template>
 
 <script>
   const applescript = require('applescript')
+  const axios = require('axios')
   const { remote } = require('electron')
   const path = require('path')
   const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
-  const xhr = new XMLHttpRequest()
-  const fs = require('fs')
   let downloadPath = path.join(process.cwd(), '/app', '/imageDownloads')
+  let imageId
 
   export default {
     data () {
       return {
-        search: '',
-        pictureUrl: '',
-        path: ''
+        search: ''
       }
     },
 
     methods: {
       getPicture () {
-        xhr.open('GET', `https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`, true)
-        xhr.onreadystatechange = () => {
-          if (xhr.readyState === 4) {
-            let response = JSON.parse(xhr.response)
-            mainProcess.savePicture(response.urls.regular, Date.now())
-          }
-        }
-        xhr.send()
+        imageId = Date.now()
+        axios.get(`https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`)
+        .then((response) => {
+          let pictureData = response.data
+          mainProcess.savePicture(pictureData.urls.regular, imageId)
+        })
+        .then(() => {
+          setTimeout(this.setBackground, 1000)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+        this.search = ''
       },
       setBackground () {
-        let downloads = fs.readdirSync(downloadPath)
-        let script = `tell application "Finder" to set desktop picture to POSIX file  "${downloadPath}/${downloads[downloads.length - 1]}"`
+        let script = `tell application "Finder" to set desktop picture to POSIX file  "${downloadPath}/background${imageId}.jpg"`
         applescript.execString(script, (error, response) => {
           if (error) {
             console.log(error)

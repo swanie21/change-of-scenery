@@ -32,15 +32,11 @@ if (process.env.NODE_ENV === 'development') {
   config.url = `file://${__dirname}/dist/index.html`
 }
 
-const downloadFile = exports.savePicture = (url) => {
-    let downloadNumber;
-    let downloads = fs.readdirSync(path.join(__dirname, '/imageDownloads'))
-    if (downloads.length>0) {
-      downloadNumber = downloads.length
-    } else {
-      downloadNumber = 0
-    }
-    const targetPath = __dirname + `/imageDownloads/background${downloadNumber}.jpg`
+const downloadFile = exports.savePicture = (url, id) => {
+    const downloadPath = path.join(__dirname, '/imageDownloads')
+    const oldBackground = fs.readdirSync(downloadPath)[0]
+    oldBackground ? fs.unlinkSync(path.join(downloadPath, oldBackground)) : null
+    const targetPath = __dirname + `/imageDownloads/background${id}.jpg`
     const imageRequest = request({
         method: 'GET',
         uri: url
