@@ -1,8 +1,7 @@
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .search-container {
   align-items: center;
-  background: black;
-  opacity: 0.9;
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   flex-direction: column;
   height: 250px;
@@ -12,7 +11,9 @@
 
 .search-input {
   background: #fff;
+  border: none;
   border-radius: 50px;
+  box-shadow: inset 0 0 10px #000000;
   color: #010101;
   font-size: 26px;
   outline: none;
@@ -20,7 +21,7 @@
   text-align: center;
   width: 400px;
   &:focus {
-    background: #edee9d;
+    background: #d0d2d6;
     transition: 0.5s;
   }
 }
@@ -34,19 +35,37 @@
   font-size: 20px;
   margin-top: 15px;
   outline: none;
-  padding: 5px;
-  width: 100px;
+  padding: 10px;
+  width: 120px;
   &:hover {
     background: darken(#DD1C1A, 15%);
     cursor: pointer;
+    transition: 0.4s;
   }
+}
+
+.loader {
+  animation: spin 2s linear infinite;
+  border: 12px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 12px solid #DD1C1A;
+  display: none;
+  margin-top: 15px;
+  height: 20px;
+  width: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
 
 <template>
-  <section class="search-container">
-    <input class="search-input" v-model="search" type="text" placeholder="Find a background">
-    <button class="submit-search-button" @click='getPicture'>Get Picture</button>
+  <section class='search-container'>
+    <input class='search-input' v-model='search' v-on:keyup.13='getPicture' type='text' placeholder='Find a background'>
+    <button class='submit-search-button' @click='getPicture'>Get Image</button>
+    <article class='loader'></article>
   </section>
 </template>
 
@@ -65,7 +84,6 @@
         search: ''
       }
     },
-
     methods: {
       getPicture () {
         imageId = Date.now()
@@ -73,6 +91,8 @@
         .then((response) => {
           let pictureData = response.data
           mainProcess.savePicture(pictureData.urls.regular, imageId)
+          document.querySelector('.submit-search-button').style.display = 'none'
+          document.querySelector('.loader').style.display = 'block'
         })
         .then(() => {
           setTimeout(this.setBackground, 1000)
@@ -83,6 +103,8 @@
         this.search = ''
       },
       setBackground () {
+        document.querySelector('.loader').style.display = 'none'
+        document.querySelector('.submit-search-button').style.display = 'block'
         let script = `tell application "Finder" to set desktop picture to POSIX file  "${downloadPath}/background${imageId}.jpg"`
         applescript.execString(script, (error, response) => {
           if (error) {
