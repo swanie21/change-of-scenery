@@ -59,6 +59,11 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.error-message {
+  font-size: 20px;
+  color: white;
+}
 </style>
 
 <template>
@@ -66,6 +71,9 @@
     <input class='search-input' v-model='search' v-on:keyup.13='getPicture' type='text' placeholder='Find a background'>
     <button class='submit-search-button' @click='getPicture'>Get Image</button>
     <article class='loader'></article>
+      <h1 class='error-message'>
+        {{errorMessage}}
+      </h1>
   </section>
 </template>
 
@@ -81,11 +89,13 @@
   export default {
     data () {
       return {
-        search: ''
+        search: '',
+        errorMessage: ''
       }
     },
     methods: {
       getPicture () {
+        this.errorMessage = ''
         imageId = Date.now()
         axios.get(`https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`)
         .then((response) => {
@@ -95,9 +105,10 @@
           document.querySelector('.loader').style.display = 'block'
         })
         .then(() => {
-          setTimeout(this.setBackground, 1000)
+          setTimeout(this.setBackground, 3000)
         })
         .catch((error) => {
+          this.errorMessage = 'No pictures match that search, sorry.'
           console.log(error)
         })
         this.search = ''
