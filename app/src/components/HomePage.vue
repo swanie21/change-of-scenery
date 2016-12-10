@@ -59,13 +59,26 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.background-preview {
+  background-repeat: no-repeat;
+  height: 130px;
+  width: 200px;
+}
 </style>
 
-<template>
+<template lang='html'>
   <section class='search-container'>
     <input class='search-input' v-model='search' v-on:keyup.13='getPicture' type='text' placeholder='Find a background'>
     <button class='submit-search-button' @click='getPicture'>Get Image</button>
     <article class='loader'></article>
+    <article class='preview-container'>
+      <article class='background-preview' :style="{ 'backgroundImage': 'url(' + url + ')' }"></article>
+      <div class='button-container'>
+        <button class='set-background-button'>Set Background</button>
+        <button class='get-new-background-button'>New Background</button>
+      </div>
+    </article>
   </section>
 </template>
 
@@ -81,7 +94,8 @@
   export default {
     data () {
       return {
-        search: ''
+        search: '',
+        url: ''
       }
     },
     methods: {
@@ -93,11 +107,11 @@
           mainProcess.savePicture(pictureData.urls.regular, imageId)
           document.querySelector('.submit-search-button').style.display = 'none'
           document.querySelector('.loader').style.display = 'block'
+          this.url = response.data.urls.thumb
         })
         .then(() => {
           setTimeout(this.setBackground, 1000)
-        })
-        .catch((error) => {
+        }).catch((error) => {
           console.log(error)
         })
         this.search = ''

@@ -1,4 +1,4 @@
-<style>
+<style lang='scss'>
   @import url(https://fonts.googleapis.com/css?family=Lato:300);
 
   * {
@@ -19,7 +19,7 @@
   }
 </style>
 
-<template>
+<template lang='html'>
   <div>
     <home-page></home-page>
   </div>
