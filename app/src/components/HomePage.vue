@@ -83,14 +83,24 @@
   const { remote } = require('electron')
   const path = require('path')
   const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
-  let downloadPath = path.join(process.cwd(), '/app', '/imageDownloads')
+  const downloadPath = path.join(process.cwd(), '/app', '/imageDownloads')
+  const setCurrentPictureInLocalStorage = (pictureData, searchTerm) => {
+    localStorage.setItem('currentPicture', JSON.stringify({
+      searchTerm: searchTerm || 'random',
+      photoUrl: pictureData.urls.regular,
+      photographer: pictureData.user.name,
+      photographerWebsite: pictureData.user.portfolio_url
+    }))
+  }
+
   let imageId
 
   export default {
     data () {
       return {
         search: '',
-        errorMessage: ''
+        errorMessage: '',
+        currentPicture: JSON.parse(localStorage.getItem('currentPicture'))
       }
     },
     methods: {
@@ -100,7 +110,8 @@
         axios.get(`https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`)
         .then((response) => {
           let pictureData = response.data
-          mainProcess.savePicture(pictureData.urls.regular, imageId)
+          mainProcess.savePicture(pictureData, imageId)
+          setCurrentPictureInLocalStorage(pictureData, this.search)
           document.querySelector('.submit-search-button').style.display = 'none'
           document.querySelector('.loader').style.display = 'block'
         })
