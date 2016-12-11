@@ -42,7 +42,7 @@ const downloadFile = exports.savePicture = (pictureData, id) => {
     const targetPath = __dirname + `/imageDownloads/background${id}.jpg`
     const imageRequest = request({
         method: 'GET',
-        uri: pictureData.urls.regular
+        uri: pictureData.urls.full
     });
     const out = fs.createWriteStream(targetPath);
     imageRequest.pipe(out);

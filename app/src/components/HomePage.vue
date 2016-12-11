@@ -58,22 +58,6 @@
     transition: opacity .3s ease;
 }
 
-.loader {
-  animation: spin 2s linear infinite;
-  border: 12px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 12px solid #DD1C1A;
-  display: none;
-  margin-top: 15px;
-  height: 20px;
-  width: 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
 .error-message {
   font-size: 20px;
   color: white;
@@ -82,23 +66,29 @@
 
 <template>
   <section class='search-container' v-on:keyup.27='closeModal'>
-    <input class='search-input' v-model='search' v-on:keyup.13='getPicture' type='text' placeholder='Find a background'>
-    <button class='submit-search-button' @click='getPicture'>Get Image</button>
-    <article class='loader'></article>
-      <h1 class='error-message'>
-        {{ errorMessage }}
-      </h1>
-    <div class="modal-container" v-show="showModal" transition="modal" >
+    <input class='search-input' v-model='search' v-on:keyup.13='previewBackground' type='text' placeholder='Find a background'>
+    <button class='submit-search-button' @click='previewBackground'>Get Image</button>
+      <h1 class='error-message'>{{ errorMessage }}</h1>
+    <section class='modal-container' v-show='showPhotographerModal'>
       <current-picture-info
         :closeModal='closeModal'>
       </current-picture-info>
-    </div>
+    </section>
     <button class='submit-search-button' @click='openModal'>See Picture Info</button>
+    <section class='modal-container' v-show='showPreviewModal'>
+      <background-preview
+        :previewBackground='previewBackground'
+        :saveBackground='saveBackground'
+        :thumbUrl='thumbUrl'
+        :closePreviewModal='closePreviewModal'>
+      </background-preview>
+    </section>
   </section>
 </template>
 
 <script>
   import CurrentPictureInfo from './CurrentPictureInfo'
+  import BackgroundPreview from './BackgroundPreview'
   const applescript = require('applescript')
   const axios = require('axios')
   const { remote } = require('electron')
@@ -113,64 +103,85 @@
       photographerWebsite: pictureData.user.portfolio_url
     }))
   }
+  const showLoader = () => {
+    document.querySelector('.background-preview').style.display = 'none'
+    document.querySelector('.loader').style.display = 'block'
+  }
+
+  const hideLoader = () => {
+    document.querySelector('.background-preview').style.display = 'block'
+    document.querySelector('.loader').style.display = 'none'
+  }
 
   let imageId
 
   export default {
+    components: {
+      CurrentPictureInfo,
+      BackgroundPreview
+    },
 
     data () {
       return {
         search: '',
         errorMessage: '',
-        showModal: false
+        thumbUrl: '',
+        imageData: null,
+        showPhotographerModal: false,
+        showPreviewModal: false
       }
-    },
-
-    components: {
-      CurrentPictureInfo
     },
 
     methods: {
       closeModal () {
-        this.showModal = false
+        this.showPhotographerModal = false
       },
 
       openModal () {
-        this.showModal = true
+        this.showPhotographerModal = true
       },
 
-      getPicture () {
+      closePreviewModal () {
+        this.showPreviewModal = false
+      },
+
+      openPreviewModal () {
+        this.showPreviewModal = true
+      },
+
+      previewBackground () {
         this.errorMessage = ''
-        imageId = Date.now()
+        hideLoader()
         axios.get(`https://api.unsplash.com/photos/random?query=${this.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`)
         .then((response) => {
-          let pictureData = response.data
-          mainProcess.savePicture(pictureData, imageId)
-          setCurrentPictureInLocalStorage(pictureData, this.search)
-          document.querySelector('.submit-search-button').style.display = 'none'
-          document.querySelector('.loader').style.display = 'block'
-        })
-        .then(() => {
-          setTimeout(this.setBackground, 3000)
+          this.imageData = response.data
+          this.thumbUrl = response.data.urls.thumb
+          this.openPreviewModal()
         })
         .catch((error) => {
           this.errorMessage = 'No images match that search, sorry.'
           console.log(error)
         })
-        this.search = ''
+      },
+
+      saveBackground () {
+        showLoader()
+        imageId = Date.now()
+        mainProcess.savePicture(this.imageData, imageId)
+        setTimeout(this.setBackground, 3000)
       },
 
       setBackground () {
-        document.querySelector('.loader').style.display = 'none'
-        document.querySelector('.submit-search-button').style.display = 'block'
+        setCurrentPictureInLocalStorage(this.imageData, this.search)
+        this.closePreviewModal()
         let script = `tell application "Finder" to set desktop picture to POSIX file  "${downloadPath}/background${imageId}.jpg"`
         applescript.execString(script, (error, response) => {
           if (error) {
             console.log(error)
           }
         })
+        this.search = ''
       }
     }
   }
-
 </script>
