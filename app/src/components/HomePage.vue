@@ -79,7 +79,8 @@
       <background-preview
         :previewBackground='previewBackground'
         :saveBackground='saveBackground'
-        :thumbUrl='thumbUrl'>
+        :thumbUrl='thumbUrl'
+        :closePreviewModal='closePreviewModal'>
       </background-preview>
     </section>
   </section>
@@ -115,6 +116,10 @@
   let imageId
 
   export default {
+    components: {
+      CurrentPictureInfo,
+      BackgroundPreview
+    },
 
     data () {
       return {
@@ -125,11 +130,6 @@
         showPhotographerModal: false,
         showPreviewModal: false
       }
-    },
-
-    components: {
-      CurrentPictureInfo,
-      BackgroundPreview
     },
 
     methods: {
@@ -168,11 +168,11 @@
         showLoader()
         imageId = Date.now()
         mainProcess.savePicture(this.imageData, imageId)
-        setCurrentPictureInLocalStorage(this.imageData, this.search)
         setTimeout(this.setBackground, 3000)
       },
 
       setBackground () {
+        setCurrentPictureInLocalStorage(this.imageData, this.search)
         this.closePreviewModal()
         let script = `tell application "Finder" to set desktop picture to POSIX file  "${downloadPath}/background${imageId}.jpg"`
         applescript.execString(script, (error, response) => {
@@ -184,5 +184,4 @@
       }
     }
   }
-
 </script>
