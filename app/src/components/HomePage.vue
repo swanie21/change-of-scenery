@@ -44,6 +44,17 @@
   }
 }
 
+.modal-container {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    transition: opacity .3s ease;
+}
+
 .loader {
   animation: spin 2s linear infinite;
   border: 12px solid #f3f3f3;
@@ -67,17 +78,24 @@
 </style>
 
 <template>
-  <section class='search-container'>
+  <section class='search-container' v-on:keyup.27='closeModal'>
     <input class='search-input' v-model='search' v-on:keyup.13='getPicture' type='text' placeholder='Find a background'>
     <button class='submit-search-button' @click='getPicture'>Get Image</button>
     <article class='loader'></article>
       <h1 class='error-message'>
         {{errorMessage}}
       </h1>
+    <div class="modal-container" v-show="showModal" transition="modal" >
+      <current-picture-info
+        :closeModal='closeModal'>
+      </current-picture-info>
+    </div>
+    <button class='submit-search-button' @click='openModal'>See Picture Info</button>
   </section>
 </template>
 
 <script>
+  import CurrentPictureInfo from './CurrentPictureInfo'
   const applescript = require('applescript')
   const axios = require('axios')
   const { remote } = require('electron')
@@ -96,14 +114,28 @@
   let imageId
 
   export default {
+
     data () {
       return {
         search: '',
         errorMessage: '',
-        currentPicture: JSON.parse(localStorage.getItem('currentPicture'))
+        showModal: false
       }
     },
+
+    components: {
+      CurrentPictureInfo
+    },
+
     methods: {
+      closeModal () {
+        this.showModal = false
+      },
+
+      openModal () {
+        this.showModal = true
+      },
+
       getPicture () {
         this.errorMessage = ''
         imageId = Date.now()
@@ -124,6 +156,7 @@
         })
         this.search = ''
       },
+
       setBackground () {
         document.querySelector('.loader').style.display = 'none'
         document.querySelector('.submit-search-button').style.display = 'block'
@@ -136,4 +169,5 @@
       }
     }
   }
+
 </script>
