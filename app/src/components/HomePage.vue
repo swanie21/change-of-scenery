@@ -72,7 +72,7 @@
     <button class='submit-search-button' @click='getPicture'>Get Image</button>
     <article class='loader'></article>
       <h1 class='error-message'>
-        {{errorMessage}}
+        {{ errorMessage }}
       </h1>
   </section>
 </template>
@@ -119,7 +119,7 @@
           setTimeout(this.setBackground, 3000)
         })
         .catch((error) => {
-          this.errorMessage = 'No pictures match that search, sorry.'
+          this.errorMessage = 'No images match that search, sorry.'
           console.log(error)
         })
         this.search = ''
