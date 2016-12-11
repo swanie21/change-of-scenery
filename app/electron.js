@@ -2,7 +2,7 @@
 const electron = require('electron')
 const path = require('path')
 const fs = require('fs')
-const { app, BrowserWindow, session } = electron
+const { app, BrowserWindow, session, shell } = electron
 const request = require('request')
 
 let mainWindow
@@ -46,4 +46,8 @@ const downloadFile = exports.savePicture = (pictureData, id) => {
     });
     const out = fs.createWriteStream(targetPath);
     imageRequest.pipe(out);
+}
+
+const openBrowser =  exports.openInBrowser = (url) => {
+  shell.openExternal(url)
 }

@@ -39,11 +39,11 @@
     <h2 class='photographer'>
       Photographer: {{ photographer }}
     </h2>
-    <h2 class='photographer-portfolio'>
-      <a :href='portfolio'>{{ photographer }}'s portfolio: {{ portfolio }}</a>
+    <h2 class='photographer-portfolio' @click='openPortfolioInBrowser'>
+      {{ photographer }}'s portfolio: {{ portfolio }}
     </h2>
-    <h2 class='picture-url'>
-      <a :href='photoUrl'>Click here to see more about this photo.</a>
+    <h2 class='picture-url' @click='openPhotoInBrowser'>
+      Click here to see more about this photo.
     </h2>
     <h3 class='search-term'>
       Search term: {{ searchTerm }}
@@ -53,6 +53,9 @@
 </template>
 
 <script>
+const path = require('path')
+const { remote } = require('electron')
+const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
 const currentPicture = JSON.parse(localStorage.getItem('currentPicture'))
 export default {
   props: ['closeModal'],
@@ -62,6 +65,14 @@ export default {
       portfolio: currentPicture ? currentPicture.photographerWebsite : null,
       searchTerm: currentPicture ? currentPicture.searchTerm : null,
       photoUrl: currentPicture ? currentPicture.photoUrl : null
+    }
+  },
+  methods: {
+    openPhotoInBrowser () {
+      mainProcess.openInBrowser(this.photoUrl)
+    },
+    openPortfolioInBrowser () {
+      mainProcess.openInBrowser(this.portfolio)
     }
   }
 }
