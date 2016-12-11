@@ -134,11 +134,11 @@
 
     methods: {
       closeModal () {
-        this.showModal = false
+        this.showPhotographerModal = false
       },
 
       openModal () {
-        this.showModal = true
+        this.showPhotographerModal = true
       },
 
       closePreviewModal () {
