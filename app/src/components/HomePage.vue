@@ -45,6 +45,9 @@
 }
 
 .modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     z-index: 9998;
     top: 0;
@@ -105,7 +108,7 @@
   const setCurrentPictureInLocalStorage = (pictureData, searchTerm) => {
     localStorage.setItem('currentPicture', JSON.stringify({
       searchTerm: searchTerm || 'random',
-      photoUrl: pictureData.urls.regular,
+      photoUrl: pictureData.links.html,
       photographer: pictureData.user.name,
       photographerWebsite: pictureData.user.portfolio_url
     }))
