@@ -72,7 +72,7 @@ $button-text: #FFF1D0;
   height: 25px;
   position: absolute;
   right: 20px;
-  top: 180px;
+  top: 210px;
   width: 25px;
   &:hover {
     @include button-hover;
