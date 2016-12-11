@@ -29,7 +29,7 @@ export default {
   props: ['closeModal'],
   data () {
     return {
-      photographer: currentPicture.photographer
+      photographer: currentPicture ? currentPicture.photographer : null
     }
   }
 }
