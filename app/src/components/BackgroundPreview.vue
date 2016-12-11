@@ -60,10 +60,10 @@
  <section class='preview-container'>
    <article class='background-preview' :style="{ 'backgroundImage': 'url(' + thumbUrl + ')' }"></article>
    <article class='loader'></article>
-   <div class='button-container'>
+   <section class='button-container'>
      <button class='set-background-button' @click='saveBackground'>Set Background</button>
      <button class='get-new-background-button' @click='previewBackground'>Grab Another Background</button>
-   </div>
+   </section>
  </section>
 </template>
 

@@ -45,6 +45,9 @@
 }
 
 .modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     z-index: 9998;
     top: 0;
@@ -65,17 +68,19 @@
   <section class='search-container' v-on:keyup.27='closeModal'>
     <input class='search-input' v-model='search' v-on:keyup.13='previewBackground' type='text' placeholder='Find a background'>
     <button class='submit-search-button' @click='previewBackground'>Get Image</button>
-      <h1 class='error-message'>
-        {{ errorMessage }}
-      </h1>
-    <section class='modal-container' v-show='showModal'>
+      <h1 class='error-message'>{{ errorMessage }}</h1>
+    <section class='modal-container' v-show='showPhotographerModal'>
       <current-picture-info
         :closeModal='closeModal'>
       </current-picture-info>
     </section>
     <button class='submit-search-button' @click='openModal'>See Picture Info</button>
     <section class='modal-container' v-show='showPreviewModal'>
-      <background-preview :previewBackground='previewBackground' :thumbUrl='thumbUrl' :saveBackground='saveBackground'></background-preview>
+      <background-preview
+        :previewBackground='previewBackground'
+        :saveBackground='saveBackground'
+        :thumbUrl='thumbUrl'>
+      </background-preview>
     </section>
   </section>
 </template>
@@ -92,7 +97,7 @@
   const setCurrentPictureInLocalStorage = (pictureData, searchTerm) => {
     localStorage.setItem('currentPicture', JSON.stringify({
       searchTerm: searchTerm || 'random',
-      photoUrl: pictureData.urls.full,
+      photoUrl: pictureData.links.html,
       photographer: pictureData.user.name,
       photographerWebsite: pictureData.user.portfolio_url
     }))
@@ -117,7 +122,7 @@
         errorMessage: '',
         thumbUrl: '',
         imageData: null,
-        showModal: false,
+        showPhotographerModal: false,
         showPreviewModal: false
       }
     },
