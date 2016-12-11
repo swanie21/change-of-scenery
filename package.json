@@ -15,6 +15,7 @@
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix app test",
     "pack": "cross-env NODE_ENV=production webpack -p --progress --colors",
     "test": "mocha test/spectron-tests.js",
+    "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix && cd app && npm install"
   },
   "author": "Greg Holguin <simulatedgreg@gmail.com>",
