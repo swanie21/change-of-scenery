@@ -129,10 +129,10 @@
   const downloadPath = path.join(process.cwd(), '/app', '/imageDownloads')
   const setCurrentPictureInLocalStorage = (pictureData, searchTerm) => {
     localStorage.setItem('currentPicture', JSON.stringify({
-      searchTerm: searchTerm || 'random',
-      photoUrl: pictureData.links.html,
       photographer: pictureData.user.name,
-      photographerWebsite: pictureData.user.portfolio_url
+      photographerWebsite: pictureData.user.portfolio_url,
+      photoUrl: pictureData.links.html,
+      searchTerm: searchTerm || 'random'
     }))
   }
   const showLoader = () => {
@@ -214,6 +214,10 @@
           }
         })
         this.search = ''
+      },
+
+      getLocalStorage () {
+        JSON.parse(localStorage.getItem(this.imageData, this.search))
       }
     }
   }

@@ -9,7 +9,7 @@
     height: 300px;
     justify-content: center;
     padding: 30px;
-    width: 400px;
+    width: 350px;
   }
 
   .close-info-button {
@@ -54,7 +54,7 @@
       {{ photographer }}'s portfolio: <span>{{ portfolio }}</span>
     </p>
     <p class='picture-url' @click='openPhotoInBrowser'>
-      <span>Click here</span> to download image
+      <span>See this image on Unsplash</span>
     </p>
     <p class='search-term'>
       Search term: {{ searchTerm }}
