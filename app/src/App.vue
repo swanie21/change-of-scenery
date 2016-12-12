@@ -1,5 +1,5 @@
 <style>
-  @import url(https://fonts.googleapis.com/css?family=Lato:300);
+  @import url(https://fonts.googleapis.com/css?family=Lato:700);
 
   * {
     margin: 0;
@@ -14,15 +14,15 @@
     align-items: center;
     background-image: url('../../img/photo-collage.jpg');
     display: flex;
-    font-family: Lato, Helvetica, sans-serif;
+    font-family: Lato, sans-serif;
     justify-content: center;
   }
 </style>
 
 <template>
-  <div>
+  <section>
     <home-page></home-page>
-  </div>
+  </section>
 </template>
 
 <script>
