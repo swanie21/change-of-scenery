@@ -1,7 +1,11 @@
 <style lang='scss' scoped>
+
+$button-color: #DD1C1A;
+$button-text: #FFF1D0;
+
 .search-container {
   align-items: center;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
   height: 250px;
@@ -27,40 +31,63 @@
 }
 
 .submit-search-button {
-  background: #DD1C1A;
+  background: $button-color;
   border: none;
   border-radius: 25px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
-  color: #FFF1D0;
+  color: $button-text;
   font-size: 20px;
   margin-top: 15px;
   outline: none;
   padding: 10px;
   width: 120px;
   &:hover {
-    background: darken(#DD1C1A, 15%);
+    background: darken($button-color, 15%);
     cursor: pointer;
     transition: 0.4s;
   }
 }
 
 .modal-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .5);
-    transition: opacity .3s ease;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity .3s ease;
+  width: 100%;
+  z-index: 1;
 }
 
 .error-message {
   font-size: 20px;
   color: white;
+}
+
+.photo-info-button {
+  background: $button-color;
+  border: 5px solid rgba(0, 0, 0, 0.9);
+  border-radius: 50%;
+  color: $button-text;
+  font-size: 15px;
+  left: 15px;
+  line-height: 22px;
+  outline: none;
+  position: absolute;
+  text-transform: uppercase;
+  transition: all 0.8s ease;
+  top: 15px;
+  height: 125px;
+  width: 125px;
+  &:hover {
+    background: $button-text;
+    color: $button-color;
+    cursor: pointer;
+    transition: all 0.8s ease-out;
+  }
 }
 </style>
 
@@ -74,7 +101,6 @@
         :closeModal='closeModal'>
       </current-picture-info>
     </section>
-    <button class='submit-search-button' @click='openModal'>See Picture Info</button>
     <section class='modal-container' v-show='showPreviewModal'>
       <background-preview
         :previewBackground='previewBackground'
@@ -83,6 +109,7 @@
         :closePreviewModal='closePreviewModal'>
       </background-preview>
     </section>
+    <button class='photo-info-button' @click='openModal'>Current Background Info</button>
   </section>
 </template>
 
