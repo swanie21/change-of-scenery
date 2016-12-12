@@ -21,7 +21,7 @@
   .background-preview {
     background-repeat: no-repeat;
     height: 130px;
-    margin-top: -20px;
+    margin-top: -10px;
     width: 200px;
   }
 
@@ -70,7 +70,8 @@
     color: $button-text;
     font-size: 18px;
     height: 25px;
-    margin-left: 90%;
+    margin-top: -10px;
+    margin-left: 92%;
     width: 25px;
     &:hover {
       @include button-hover;

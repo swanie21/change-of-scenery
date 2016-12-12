@@ -54,7 +54,7 @@
       {{ photographer }}'s portfolio: <span>{{ portfolio }}</span>
     </p>
     <p class='picture-url' @click='openPhotoInBrowser'>
-      <span>Click here</span> to download photo
+      <span>Click here</span> to download image
     </p>
     <p class='search-term'>
       Search term: {{ searchTerm }}
