@@ -1,3 +1,21 @@
+<template>
+  <section class='preview-container'>
+    <button class='close-preview-button' @click='closePreviewModal'>X</button>
+    <article class='background-preview' :style="{ 'backgroundImage': 'url(' + thumbUrl + ')' }"></article>
+    <article class='loader'></article>
+    <section class='button-container'>
+      <button class='set-background-button' @click='saveBackground'>Set Background</button>
+      <button class='get-new-background-button' @click='previewBackground'>Grab Another</button>
+    </section>
+  </section>
+</template>
+
+<script>
+  export default {
+    props: ['thumbUrl', 'previewBackground', 'saveBackground', 'closePreviewModal']
+  }
+</script>
+
 <style lang="scss" scoped>
   $button-color: #DD1C1A;
   $button-text: #FFF1D0;
@@ -78,21 +96,3 @@
     }
   }
 </style>
-
-<template>
-  <section class='preview-container'>
-    <button class='close-preview-button' @click='closePreviewModal'>X</button>
-    <article class='background-preview' :style="{ 'backgroundImage': 'url(' + thumbUrl + ')' }"></article>
-    <article class='loader'></article>
-    <section class='button-container'>
-      <button class='set-background-button' @click='saveBackground'>Set Background</button>
-      <button class='get-new-background-button' @click='previewBackground'>Grab Another</button>
-    </section>
-  </section>
-</template>
-
-<script>
-  export default {
-    props: ['thumbUrl', 'previewBackground', 'saveBackground', 'closePreviewModal']
-  }
-</script>
