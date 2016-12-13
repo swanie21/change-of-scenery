@@ -9,7 +9,7 @@
     height: 300px;
     justify-content: center;
     padding: 30px;
-    width: 350px;
+    width: 400px;
   }
 
   .close-info-button {
@@ -47,19 +47,11 @@
 
 <template>
   <section class='current-picture-info'>
-    <p class='photographer'>
-      Photographer: {{ currentImage.photographer }}
-    </p>
-    <p class='photographer-portfolio' @click='openPortfolioInBrowser'>
-      Portfolio: <span>{{ currentImage.photographerWebsite }}</span>
-    </p>
-    <p class='picture-url' @click='openPhotoInBrowser'>
-      Unsplash link: <span>{{ currentImage.photoUrl }}</span>
-    </p>
-    <p class='search-term'>
-      Search term: {{ currentImage.searchTerm }}
-    </p>
-    <button class='close-info-button' @click='closeModal'>Close</button>
+    <p>Photographer: {{ currentImage.photographer }}</p>
+    <p @click='openPortfolioInBrowser'>Portfolio: <span>{{ currentImage.photographerWebsite }}</span></p>
+    <p @click='openPhotoInBrowser'>Unsplash link: <span>{{ currentImage.photoUrl }}</span></p>
+    <p>Search term: {{ currentImage.searchTerm }}</p>
+    <button class='close-info-button' @click='closePhotoInfoModal'>Close</button>
   </section>
 </template>
 
@@ -69,7 +61,7 @@
   const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
 
   export default {
-    props: ['closeModal', 'currentImage'],
+    props: ['closePhotoInfoModal', 'currentImage'],
     methods: {
       openPhotoInBrowser () {
         mainProcess.openInBrowser(this.currentImage.photoUrl)
