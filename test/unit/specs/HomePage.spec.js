@@ -17,6 +17,15 @@ describe('HomePage.vue', () => {
     expect(vm.$el.querySelector('.submit-search-button').textContent).to.contain('Get Image')
   })
 
+  it('should render a current background info button', () => {
+    const vm = new Vue({
+      template: document.createElement('button'),
+      render: h => h(HomePage)
+    }).$mount()
+
+    expect(vm.$el.querySelector('.photo-info-button').textContent).to.contain('Current Background Info')
+  })
+
   it('should render an input field', () => {
     const vm = new Vue({
       template: document.createElement('input'),

@@ -104,7 +104,8 @@
     <h1 class='error-message'>{{ errorMessage }}</h1>
     <section class='modal-container' v-show='showPhotographerModal'>
       <current-picture-info
-        :closeModal='closeModal'>
+        :closeModal='closeModal'
+        :currentImage='currentImage'>
       </current-picture-info>
     </section>
     <section class='modal-preview-container' v-show='showPreviewModal'>
@@ -129,17 +130,16 @@
   const downloadPath = path.join(process.cwd(), '/app', '/imageDownloads')
   const setCurrentPictureInLocalStorage = (pictureData, searchTerm) => {
     localStorage.setItem('currentPicture', JSON.stringify({
-      searchTerm: searchTerm || 'random',
-      photoUrl: pictureData.links.html,
       photographer: pictureData.user.name,
-      photographerWebsite: pictureData.user.portfolio_url
+      photographerWebsite: pictureData.user.portfolio_url,
+      photoUrl: pictureData.links.html,
+      searchTerm: searchTerm || 'random'
     }))
   }
   const showLoader = () => {
     document.querySelector('.background-preview').style.display = 'none'
     document.querySelector('.loader').style.display = 'block'
   }
-
   const hideLoader = () => {
     document.querySelector('.background-preview').style.display = 'block'
     document.querySelector('.loader').style.display = 'none'
@@ -160,8 +160,15 @@
         thumbUrl: '',
         imageData: null,
         showPhotographerModal: false,
-        showPreviewModal: false
+        showPreviewModal: false,
+        currentImage: {
+          photographer: 'No Image Downloaded'
+        }
       }
+    },
+
+    created () {
+      this.getCurrentImage()
     },
 
     methods: {
@@ -206,6 +213,7 @@
 
       setBackground () {
         setCurrentPictureInLocalStorage(this.imageData, this.search)
+        this.getCurrentImage()
         this.closePreviewModal()
         let script = `tell application "Finder" to set desktop picture to POSIX file  "${downloadPath}/background${imageId}.jpg"`
         applescript.execString(script, (error, response) => {
@@ -214,6 +222,13 @@
           }
         })
         this.search = ''
+      },
+
+      getCurrentImage () {
+        let imageInLocalStorage = JSON.parse(localStorage.getItem('currentPicture'))
+        if (imageInLocalStorage) {
+          this.currentImage = imageInLocalStorage
+        }
       }
     }
   }

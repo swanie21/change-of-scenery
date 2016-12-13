@@ -53,7 +53,7 @@
     border-radius: 50%;
     border-top: 12px solid $button-color;
     display: none;
-    margin: 33px 0;
+    margin: 38px 0;
     height: 20px;
     width: 20px;
   }
