@@ -1,6 +1,6 @@
 # Change of Scenery
 
-![gif](http://g.recordit.co/eFOQRi2QGN.gif)
+![gif](http://g.recordit.co/zjYe5COyVB.gif)
 
 This Electron application sets your Mac OS desktop background with images from Unsplash. The app is built with a Vue.js framework that implements localStorage, axios requests, and AppleScript.
 
