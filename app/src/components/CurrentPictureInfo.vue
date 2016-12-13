@@ -48,16 +48,16 @@
 <template>
   <section class='current-picture-info'>
     <p class='photographer'>
-      Photographer: {{ photographer }}
+      Photographer: {{ currentImage.photographer }}
     </p>
     <p class='photographer-portfolio' @click='openPortfolioInBrowser'>
-      {{ photographer }}'s portfolio: <span>{{ portfolio }}</span>
+      Portfolio: <span>{{ currentImage.photographerWebsite }}</span>
     </p>
     <p class='picture-url' @click='openPhotoInBrowser'>
-      <span>See this image on Unsplash</span>
+      Unsplash link: <span>{{ currentImage.photoUrl }}</span>
     </p>
     <p class='search-term'>
-      Search term: {{ searchTerm }}
+      Search term: {{ currentImage.searchTerm }}
     </p>
     <button class='close-info-button' @click='closeModal'>Close</button>
   </section>
@@ -67,23 +67,15 @@
   const path = require('path')
   const { remote } = require('electron')
   const mainProcess = remote.require(path.join(process.cwd(), 'app/electron.js'))
-  const currentPicture = JSON.parse(localStorage.getItem('currentPicture'))
+
   export default {
-    props: ['closeModal'],
-    data () {
-      return {
-        photographer: currentPicture ? currentPicture.photographer : 'No picture yet',
-        portfolio: currentPicture ? currentPicture.photographerWebsite : null,
-        searchTerm: currentPicture ? currentPicture.searchTerm : null,
-        photoUrl: currentPicture ? currentPicture.photoUrl : null
-      }
-    },
+    props: ['closeModal', 'currentImage'],
     methods: {
       openPhotoInBrowser () {
-        mainProcess.openInBrowser(this.photoUrl)
+        mainProcess.openInBrowser(this.currentImage.photoUrl)
       },
       openPortfolioInBrowser () {
-        mainProcess.openInBrowser(this.portfolio)
+        mainProcess.openInBrowser(this.currentImage.photographerWebsite)
       }
     }
   }
