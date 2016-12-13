@@ -98,13 +98,13 @@
 
 <template>
   <section class='search-container' v-on:keyup.27='closeModal'>
-    <button class='photo-info-button' @click='openModal'>Current Background Info</button>
+    <button class='photo-info-button' @click='openPhotoInfoModal'>Current Background Info</button>
     <input class='search-input' v-model='search' v-on:keyup.13='previewBackground' type='text' placeholder='Find a background'>
     <button class='submit-search-button' @click='previewBackground'>Get Image</button>
     <h1 class='error-message'>{{ errorMessage }}</h1>
     <section class='modal-container' v-show='showPhotographerModal'>
       <current-picture-info
-        :closeModal='closeModal'
+        :closePhotoInfoModal='closePhotoInfoModal'
         :currentImage='currentImage'>
       </current-picture-info>
     </section>
@@ -152,7 +152,6 @@
       CurrentPictureInfo,
       BackgroundPreview
     },
-
     data () {
       return {
         search: '',
@@ -166,29 +165,23 @@
         }
       }
     },
-
     created () {
       this.getCurrentImage()
     },
-
     methods: {
-      closeModal () {
+      closePhotoInfoModal () {
         this.showPhotographerModal = false
       },
-
-      openModal () {
+      openPhotoInfoModal () {
         this.showPhotographerModal = true
       },
-
       closePreviewModal () {
         this.showPreviewModal = false
         this.search = ''
       },
-
       openPreviewModal () {
         this.showPreviewModal = true
       },
-
       previewBackground () {
         this.errorMessage = ''
         hideLoader()
@@ -203,14 +196,12 @@
           console.log(error)
         })
       },
-
       saveBackground () {
         showLoader()
         imageId = Date.now()
         mainProcess.savePicture(this.imageData, imageId)
         setTimeout(this.setBackground, 3000)
       },
-
       setBackground () {
         setCurrentPictureInLocalStorage(this.imageData, this.search)
         this.getCurrentImage()
@@ -223,7 +214,6 @@
         })
         this.search = ''
       },
-
       getCurrentImage () {
         let imageInLocalStorage = JSON.parse(localStorage.getItem('currentPicture'))
         if (imageInLocalStorage) {

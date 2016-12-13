@@ -12,9 +12,9 @@ app.on('ready', () => {
   mainWindow = new BrowserWindow({
     title: 'Change of Scenery',
     height: 600,
+    minHeight: 600,
     width: 800,
     minWidth: 500,
-    minHeight: 600,
     show: false
   });
 
@@ -36,18 +36,18 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const downloadFile = exports.savePicture = (pictureData, id) => {
-    const downloadPath = path.join(__dirname, '/imageDownloads');
-    const oldBackground = fs.readdirSync(downloadPath)[0];
-    oldBackground ? fs.unlinkSync(path.join(downloadPath, oldBackground)) : null;
-    const targetPath = __dirname + `/imageDownloads/background${id}.jpg`;
-    const imageRequest = request({
-        method: 'GET',
-        uri: pictureData.urls.full
-    });
-    const out = fs.createWriteStream(targetPath);
-    imageRequest.pipe(out);
+  const downloadPath = path.join(__dirname, '/imageDownloads');
+  const oldBackground = fs.readdirSync(downloadPath)[0];
+  oldBackground ? fs.unlinkSync(path.join(downloadPath, oldBackground)) : null;
+  const targetPath = __dirname + `/imageDownloads/background${id}.jpg`;
+  const imageRequest = request({
+    method: 'GET',
+    uri: pictureData.urls.full
+  });
+  const out = fs.createWriteStream(targetPath);
+  imageRequest.pipe(out);
 };
 
-const openBrowser =  exports.openInBrowser = (url) => {
+const openBrowser = exports.openInBrowser = (url) => {
   shell.openExternal(url);
 };
