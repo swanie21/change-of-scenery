@@ -1,3 +1,18 @@
+<template>
+  <section>
+    <home-page></home-page>
+  </section>
+</template>
+
+<script>
+  import HomePage from './components/HomePage'
+  export default {
+    components: {
+      HomePage
+    }
+  }
+</script>
+
 <style>
   @import url(https://fonts.googleapis.com/css?family=Lato:700);
 
@@ -18,18 +33,3 @@
     justify-content: center;
   }
 </style>
-
-<template>
-  <section>
-    <home-page></home-page>
-  </section>
-</template>
-
-<script>
-  import HomePage from './components/HomePage'
-  export default {
-    components: {
-      HomePage
-    }
-  }
-</script>
