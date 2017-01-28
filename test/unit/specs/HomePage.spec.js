@@ -53,15 +53,15 @@ describe('HomePage.vue', () => {
     expect(vm.$el.querySelector('.error-message').textContent).to.contain('')
   })
 
-  xit('sets the correct default data', () => {
-    expect(typeof HomePage.data).toBe('function')
+  it('sets the correct default data', () => {
+    expect(typeof HomePage.data).to.equal('function')
     const defaultData = HomePage.data()
-    expect(defaultData.search).toBe('')
+    expect(defaultData.search).to.equal('')
   })
 
-  xit('renders the correct props', () => {
+  it('renders the correct props', () => {
     expect(getRenderedText(HomePage, {
       errorMessage: ''
-    })).toBe('No images match that search, sorry.')
+    })).to.equal('No images match that search, sorry.')
   })
 })

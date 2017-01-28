@@ -147,7 +147,7 @@
     document.querySelector('.loader').style.display = 'none'
   }
 
-  let imageId;
+  let imageId
 
   export default {
     components: {
