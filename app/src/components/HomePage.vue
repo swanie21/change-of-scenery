@@ -38,10 +38,12 @@
       searchTerm: searchTerm || 'random'
     }))
   }
+
   const showLoader = () => {
     document.querySelector('.background-preview').style.display = 'none'
     document.querySelector('.loader').style.display = 'block'
   }
+
   const hideLoader = () => {
     document.querySelector('.background-preview').style.display = 'block'
     document.querySelector('.loader').style.display = 'none'
